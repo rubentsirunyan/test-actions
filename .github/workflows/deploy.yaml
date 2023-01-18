@@ -41,11 +41,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      # - name: Print the vars
-      #   # shell: bash
-      #   # env:
-      #   #   CUSTOM_ENV_VAR: ${{ env.CUSTOM_ENV_VAR }}
-      #   run: vars
+      - name: Setup java
+        uses: ./.github/actions/setup-java
 
       - name: Print the var
         shell: bash
