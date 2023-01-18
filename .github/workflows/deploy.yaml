@@ -47,6 +47,7 @@ jobs:
   deploy:
     name: Deploy
     needs:
+      - setup_github_environment
       - test
       - build
     # if: github.event.pull_request.merged == true
