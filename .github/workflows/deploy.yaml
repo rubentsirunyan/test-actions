@@ -10,11 +10,11 @@ on:
       - prod
 
 jobs:
-  build:
-    name: build
+  setup_environment:
+    name: Setup environment
     runs-on: ubuntu-latest
     steps:
-      - name: Some check on branch
+      - name: 'Set the environment based on the branch'
         id: branch_check
         run: |
           echo "Running on branch ${{ github.ref_name }}"
@@ -26,9 +26,13 @@ jobs:
     outputs:
       env_name: ${{ steps.branch_check.outputs.env_name }}
 
+  build:
+    name: Build
+    uses: ./.github/workflows/build.yaml
+
   deploy:
-    name: deploy
-    needs: [build]
+    name: Deploy
+    needs: [setup_environment, build]
     # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment:
