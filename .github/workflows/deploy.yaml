@@ -52,7 +52,7 @@ jobs:
     # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment:
-      name: ${{ needs.build.outputs.env_name }}
+      name: ${{ needs.setup_java_environment.outputs.env_name }}
 
     steps:
       - name: Checkout git repo
