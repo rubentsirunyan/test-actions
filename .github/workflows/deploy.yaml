@@ -10,8 +10,8 @@ on:
       - prod
 
 jobs:
-  setup_environment:
-    name: Setup environment
+  setup_github_environment:
+    name: Setup GitHub environment
     runs-on: ubuntu-latest
     steps:
       - name: 'Set the environment based on the branch'
@@ -26,31 +26,46 @@ jobs:
     outputs:
       env_name: ${{ steps.branch_check.outputs.env_name }}
 
+  setup_java_environment:
+    name: Setup Java environment
+    uses: ./.github/workflows/setup_java_environment.yaml
+
+  test:
+    name: Test
+    needs:
+      - setup_github_environment
+      - setup_java_environment
+    uses: ./.github/workflows/test.yaml
+
   build:
     name: Build
+    needs:
+      - setup_github_environment
+      - setup_java_environment
     uses: ./.github/workflows/build.yaml
 
   deploy:
     name: Deploy
-    needs: [setup_environment, build]
+    needs:
+      - test
+      - build
     # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment:
       name: ${{ needs.build.outputs.env_name }}
 
     steps:
-
       - name: Checkout git repo
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: Setup java
-        uses: ./.github/actions/setup-java
 
       - name: Print the var
         shell: bash
         # env:
         #   CUSTOM_ENV_VAR: ${{ env.CUSTOM_ENV_VAR }}
         run: echo "${{ vars.CUSTOM_ENV_VAR }}"
+
+      - name: Deploy
+        run: echo "Running deployment"
 

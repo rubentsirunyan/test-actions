@@ -1,14 +1,12 @@
 name: Build
 
 on:
-  push:
-    branches: [prod, dev, qa, stage, main, 'dev-*']
   workflow_call:
 
 
 jobs:
-  build:
-    name: Build, Test, and push lambda jar files to s3 bucket
+  test:
+    name: Run build
     runs-on: ubuntu-latest
 
     steps:
@@ -17,19 +15,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
-
-      - name: Set up cash dirs
+      - name: Run build
         run: |
-          mkdir -p ~/.m2/repository && mkdir -p ~/jib/cache
-
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+          echo "Building..."
