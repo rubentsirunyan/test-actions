@@ -26,4 +26,4 @@ jobs:
 
       - name: Print the var
         shell: bash
-        run: "echo $CUSTOM_ENV_VAR"
+        run: "echo ${{ env.CUSTOM_ENV_VAR }}"
