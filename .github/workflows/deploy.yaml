@@ -15,7 +15,7 @@ jobs:
     name: deploy
     # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    # environment: ${{ github.ref_name =  }}
+    environment: nonprod
 
     steps:
       - name: Checkout git repo
