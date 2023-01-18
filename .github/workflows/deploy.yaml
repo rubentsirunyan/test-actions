@@ -10,14 +10,9 @@ on:
       - prod
 
 jobs:
-
-  deploy:
-    name: deploy
-    # if: github.event.pull_request.merged == true
+  build:
+    name: build
     runs-on: ubuntu-latest
-    environment:
-      name: ${{ needs.deploy.outputs.env_name }}
-
     steps:
       - name: Some check on branch
         id: branch_check
@@ -28,6 +23,17 @@ jobs:
           else
              echo "::set-output name=env_name::nonprod"
           fi
+    outputs:
+      env_name: ${{ steps.branch_check.outputs.env_name }}
+
+  deploy:
+    name: deploy
+    # if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ needs.build.outputs.env_name }}
+
+    steps:
 
       - name: Checkout git repo
         uses: actions/checkout@v2
@@ -46,5 +52,3 @@ jobs:
         #   CUSTOM_ENV_VAR: ${{ env.CUSTOM_ENV_VAR }}
         run: echo "${{ vars.CUSTOM_ENV_VAR }}"
 
-    outputs:
-      env_name: ${{ steps.branch_check.outputs.env_name }}
