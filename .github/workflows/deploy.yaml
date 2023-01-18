@@ -23,11 +23,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Print the contex
+      - name: Print the vars
         # shell: bash
         # env:
         #   CUSTOM_ENV_VAR: ${{ env.CUSTOM_ENV_VAR }}
-        run: env
+        run: vars
 
       - name: Print the var
         shell: bash
