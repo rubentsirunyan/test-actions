@@ -15,9 +15,20 @@ jobs:
     name: deploy
     # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    environment: nonprod
+    environment:
+      name: ${{ needs.deploy.outputs.env_name }}
 
     steps:
+      - name: Some check on branch
+        id: branch_check
+        run: |
+          echo "Running on branch ${{ github.ref_name }}"
+          if [ "${{ github.ref_name }}" = "prod" ]; then
+            echo "::set-output name=env_name::prod"
+          else
+             echo "::set-output name=env_name::nonprod"
+          fi
+
       - name: Checkout git repo
         uses: actions/checkout@v2
         with:
@@ -34,3 +45,6 @@ jobs:
         # env:
         #   CUSTOM_ENV_VAR: ${{ env.CUSTOM_ENV_VAR }}
         run: echo "${{ vars.CUSTOM_ENV_VAR }}"
+
+    outputs:
+      env_name: ${{ steps.branch_check.outputs.env_name }}
