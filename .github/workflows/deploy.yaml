@@ -27,4 +27,4 @@ jobs:
         shell: bash
         env:
           CUSTOM_ENV_VAR: ${{ env.CUSTOM_ENV_VAR }}
-        run: "echo $CUSTOM_ENV_VAR"
+        run: echo "$CUSTOM_ENV_VAR"
