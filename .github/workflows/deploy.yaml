@@ -27,7 +27,7 @@ jobs:
         # shell: bash
         # env:
         #   CUSTOM_ENV_VAR: ${{ env.CUSTOM_ENV_VAR }}
-        run: echo "${{ env }}"
+        run: env
 
       - name: Print the var
         shell: bash
