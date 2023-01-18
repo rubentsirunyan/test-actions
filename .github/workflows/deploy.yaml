@@ -1,14 +1,13 @@
 name: Deploy
 
 on:
-  pull_request:
+  push:
     branches:
       - dev
       - qa
       - stage
       - hotfix
       - prod
-    types: [closed]
 
 jobs:
 
@@ -26,4 +25,6 @@ jobs:
 
       - name: Print the var
         shell: bash
-        run: "echo ${{ env.CUSTOM_ENV_VAR }}"
+        env:
+          CUSTOM_ENV_VAR: ${{ env.CUSTOM_ENV_VAR }}
+        run: "echo $CUSTOM_ENV_VAR"
