@@ -23,6 +23,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Print the contex
+        # shell: bash
+        # env:
+        #   CUSTOM_ENV_VAR: ${{ env.CUSTOM_ENV_VAR }}
+        run: echo "$GITHUB_CONTEXT"
+
       - name: Print the var
         shell: bash
         env:
